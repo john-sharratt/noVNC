@@ -35,6 +35,7 @@ export default function RFB(defaults) {
     this._rfb_host = '';
     this._rfb_port = 5900;
     this._rfb_password = '';
+    this._rfb_authorization ='';
     this._rfb_path = '';
 
     this._rfb_connection_state = '';
@@ -263,10 +264,11 @@ export default function RFB(defaults) {
 
 RFB.prototype = {
     // Public methods
-    connect: function (host, port, password, path) {
+    connect: function (host, port, password, path, authorization) {
         this._rfb_host = host;
         this._rfb_port = port;
         this._rfb_password = (password !== undefined) ? password : "";
+        this._rfb_authorization = (authorization !== undefined) ? authorization : "";
         this._rfb_path = (path !== undefined) ? path : "";
 
         if (!this._rfb_host || !this._rfb_port) {
@@ -288,6 +290,11 @@ RFB.prototype = {
 
     sendPassword: function (passwd) {
         this._rfb_password = passwd;
+        setTimeout(this._init_msg.bind(this), 0);
+    },
+
+    sendAuthorization: function (authorization) {
+        this._rfb_authorization = authorization;
         setTimeout(this._init_msg.bind(this), 0);
     },
 
