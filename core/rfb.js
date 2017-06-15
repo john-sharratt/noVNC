@@ -35,7 +35,7 @@ export default function RFB(defaults) {
     this._rfb_host = '';
     this._rfb_port = 5900;
     this._rfb_password = '';
-    this._rfb_authorization ='';
+    this._rfb_token ='';
     this._rfb_path = '';
 
     this._rfb_connection_state = '';
@@ -264,11 +264,11 @@ export default function RFB(defaults) {
 
 RFB.prototype = {
     // Public methods
-    connect: function (host, port, password, path, authorization) {
+    connect: function (host, port, password, path, token) {
         this._rfb_host = host;
         this._rfb_port = port;
         this._rfb_password = (password !== undefined) ? password : "";
-        this._rfb_authorization = (authorization !== undefined) ? authorization : "";
+        this._rfb_token = (token !== undefined) ? token : "";
         this._rfb_path = (path !== undefined) ? path : "";
 
         if (!this._rfb_host || !this._rfb_port) {
@@ -293,8 +293,8 @@ RFB.prototype = {
         setTimeout(this._init_msg.bind(this), 0);
     },
 
-    sendAuthorization: function (authorization) {
-        this._rfb_authorization = authorization;
+    sendToken: function (token) {
+        this._rfb_token = token;
         setTimeout(this._init_msg.bind(this), 0);
     },
 
@@ -401,6 +401,11 @@ RFB.prototype = {
         }
 
         uri += '://' + this._rfb_host + ':' + this._rfb_port + '/' + this._rfb_path;
+        
+        if (this._rfb_token !== '') {
+            uri += '?token=' + this._rfb_token;
+        }
+        
         Log.Info("connecting to " + uri);
 
         try {
