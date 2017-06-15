@@ -1040,7 +1040,11 @@ var UI = {
         var host = UI.getSetting('host');
         var port = UI.getSetting('port');
         var path = UI.getSetting('path');
-
+        var token = WebUtil.getConfigVar('token');
+        if (token === null) {
+            token = WebUtil.readSetting('token', undefined);
+        }
+        
         if (typeof password === 'undefined') {
             password = WebUtil.getConfigVar('password');
         }
@@ -1068,7 +1072,7 @@ var UI = {
         UI.updateLocalCursor();
         UI.updateViewOnly();
 
-        UI.rfb.connect(host, port, password, path);
+        UI.rfb.connect(host, port, password, path, token);
     },
 
     disconnect: function() {
