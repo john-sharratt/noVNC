@@ -1041,6 +1041,11 @@ var UI = {
         var port = UI.getSetting('port');
         var path = UI.getSetting('path');
         var token = WebUtil.getConfigVar('token');
+        
+        if (typeof token === 'undefined') {
+            password = WebUtil.readSetting('token', undefined);
+        }
+        
         if (token === null) {
             token = WebUtil.readSetting('token', undefined);
         }
