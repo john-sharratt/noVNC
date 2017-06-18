@@ -1043,11 +1043,19 @@ var UI = {
         var token = WebUtil.getConfigVar('token');
         
         if (typeof token === 'undefined') {
-            password = WebUtil.readSetting('token', undefined);
+            token = WebUtil.readSetting('token', undefined);
         }
         
         if (token === null) {
             token = WebUtil.readSetting('token', undefined);
+        }
+        
+        if (typeof token === 'undefined') {
+            token = WebUtil.readCookie('token', undefined);
+        }
+        
+        if (token === null) {
+            token = WebUtil.readCookie('token', undefined);
         }
         
         if (typeof password === 'undefined') {
